@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masjidhero - Conseil Supérieur des Érudits</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .sidebar-item:hover { background-color: rgba(255,255,255,0.1); }
+        .sidebar-active { background-color: #1E293B; border-left: 4px solid #FACC15; }
+        .glass-tag { backdrop-filter: blur(4px); background-color: rgba(0, 0, 0, 0.05); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <aside class="w-72 bg-[#0F172A] text-slate-300 flex flex-col shrink-0">
+        <div class="p-6 flex items-center gap-3">
+            <div class="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center text-white font-bold">M</div>
+            <span class="text-white font-bold text-xl tracking-tight">Masjidhero</span>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto custom-scrollbar px-4 space-y-2 text-sm">
+            <p class="px-2 py-4 text-xs font-semibold uppercase tracking-widest text-slate-500">Menu Principal</p>
+            <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl transition-all">
+                <i class="fa-solid fa-chart-line w-5"></i> Tableau de Bord du Conseil
+            </a>
+            <a href="#" class="sidebar-active flex items-center gap-3 p-3 rounded-xl text-white">
+                <i class="fa-solid fa-book-quran w-5"></i> Registre des Érudits
+            </a>
+            <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl transition-all">
+                <i class="fa-solid fa-microphone w-5"></i> Heures de Récitation & Ijazah
+            </a>
+            <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl transition-all">
+                <i class="fa-solid fa-users-rectangle w-5"></i> Conférences Coraniques
+            </a>
+            <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl transition-all">
+                <i class="fa-solid fa-graduation-cap w-5"></i> Curriculum Avancé
+            </a>
+            <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl transition-all">
+                <i class="fa-solid fa-hand-holding-heart w-5"></i> Fonds d'Inspiration
+            </a>
+            <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl transition-all">
+                <i class="fa-solid fa-mosque w-5"></i> Centres de Certification
+            </a>
+            <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl transition-all">
+                <i class="fa-solid fa-scroll w-5"></i> Publications Académiques
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-slate-800 space-y-2 text-sm">
+            <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl"><i class="fa-solid fa-bullhorn w-5"></i> Annonces</a>
+            <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl"><i class="fa-solid fa-gear w-5"></i> Paramètres</a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0">
+        
+        <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-8 shrink-0">
+            <div class="flex bg-slate-100 p-1 rounded-xl">
+                <button class="px-6 py-2 bg-white shadow-sm rounded-lg text-sm font-semibold text-slate-800">Conseil</button>
+                <button class="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-800 transition-all">Adhésion</button>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <button class="relative text-slate-400 hover:text-slate-600">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                </button>
+                <div class="flex items-center gap-3 pl-6 border-l border-slate-200">
+                    <div class="text-right">
+                        <p class="text-sm font-bold text-slate-800">Dr. Ralph Edwards</p>
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-tighter">Admin. Suprême du Conseil</p>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Ralph+Edwards&background=0F172A&color=fff" class="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt="Profile">
+                </div>
+            </div>
+        </header>
+
+        <section class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+            <div class="max-w-7xl mx-auto">
+                
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                    <h1 class="text-2xl font-bold text-slate-800">Conseil Supérieur des Érudits du Coran</h1>
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" placeholder="Rechercher un Érudit..." class="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none w-64 shadow-sm">
+                        </div>
+                        <button class="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-600 hover:bg-slate-50 shadow-sm">
+                            <i class="fa-solid fa-sliders"></i>
+                        </button>
+                        <button id="btnInscrire" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-md flex items-center gap-2">
+                            <i class="fa-solid fa-plus text-xs"></i> Inscrire un Nouvel Érudit
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-medium">
+                            <tr>
+                                <th class="px-6 py-4 w-10"><input type="checkbox" class="rounded text-blue-600"></th>
+                                <th class="px-6 py-4">NAME</th>
+                                <th class="px-6 py-4">EMAIL ADDRESS</th>
+                                <th class="px-6 py-4">PHONE</th>
+                                <th class="px-6 py-4">TAGS</th>
+                                <th class="px-6 py-4">MEMBERSHIP</th>
+                                <th class="px-6 py-4"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="scholarsList" class="divide-y divide-slate-100">
+                            </tbody>
+                    </table>
+                    
+                    <div class="p-4 border-t border-slate-100 flex items-center justify-between text-slate-500">
+                        <span class="text-xs">Affichage de 1 à 15 sur 120 résultats</span>
+                        <div class="flex gap-1">
+                            <button class="px-3 py-1 rounded bg-blue-50 text-blue-600 font-bold">1</button>
+                            <button class="px-3 py-1 rounded hover:bg-slate-100">2</button>
+                            <button class="px-3 py-1 rounded hover:bg-slate-100">3</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const scholars = [
+            { name: "Robert Fox", email: "robert.f@gmail.com", phone: "+1 (925) 589-2845", tags: ["Hafiz Mutqin", "Expert Tajweed"], membership: "Hafiz de Haut Niveau", img: "1" },
+            { name: "Alice Johnson", email: "alice.j@gmail.com", phone: "+1 (408) 555-0123", tags: ["Membre Conseil", "Ijazah"], membership: "Dignitaire de l'Ijazah", img: "2" },
+            { name: "Michael Brown", email: "m.brown@gmail.com", phone: "+1 (202) 555-0190", tags: ["Mufassir", "Docteur Hadith"], membership: "Chercheur Senior", img: "3" },
+            { name: "Sophia Martinez", email: "s.martinez@gmail.com", phone: "+1 (617) 555-0145", tags: ["Certification"], membership: "Lifetime Member", img: "4" }
+        ];
+
+        function renderScholars() {
+            const container = document.getElementById('scholarsList');
+            container.innerHTML = scholars.map(s => `
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-6 py-4"><input type="checkbox" class="rounded"></td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            <img src="https://i.pravatar.cc/150?u=${s.img}" class="w-8 h-8 rounded-full">
+                            <span class="font-semibold text-slate-800">${s.name}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-slate-500">${s.email}</td>
+                    <td class="px-6 py-4 text-slate-500 text-xs">${s.phone}</td>
+                    <td class="px-6 py-4">
+                        <div class="flex gap-2">
+                            ${s.tags.map(t => `<span class="px-2 py-1 glass-tag rounded-md text-[10px] font-bold text-slate-600 border border-slate-200 italic">${t}</span>`).join('')}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="text-xs font-medium text-slate-700">${s.membership}</span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="text-slate-400 hover:text-slate-800 transition-all">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Action bouton
+        document.getElementById('btnInscrire').addEventListener('click', () => {
+            alert("Ouverture du formulaire sécurisé d'inscription des érudits...");
+        });
+
+        // Initialisation
+        renderScholars();
+    </script>
+</body>
+</html>

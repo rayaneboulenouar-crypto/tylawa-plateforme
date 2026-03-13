@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qolb - All Surahs (Hossary Warsh)</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .surah-section {
+            padding: 60px 8%;
+            min-height: 100vh;
+        }
+
+        .section-header {
+            margin-bottom: 40px;
+        }
+
+        .back-home {
+            text-decoration: none;
+            color: #008967;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            width: 123px;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+        }
+
+        .filter-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .tabs-container {
+            display: flex;
+            gap: 8px;
+            background: #f8f9fa;
+            padding: 5px;
+            border-radius: 30px;
+        }
+
+        .filter-tab {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: transparent;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .filter-tab.active {
+            background: #008967;
+            color: white;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid #eee;
+            padding: 10px 20px;
+            border-radius: 30px;
+            width: 350px;
+        }
+
+        .search-wrapper input {
+            border: none;
+            outline: none;
+            width: 100%;
+            margin-left: 10px;
+            font-family: inherit;
+        }
+
+        .sorting-info {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-top: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* --- Grid System 3 Colonnes --- */
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .card-item {
+            width: 33.33%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+            transition: 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* Les traits verticaux */
+        .card-item:not(:nth-child(3n))::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 25%;
+            height: 50%;
+            width: 1px;
+            background: #f0f0f0;
+        }
+
+        /* Hover effect */
+        .card-item:hover {
+            background: #008967;
+            border-radius: 12px;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 137, 103, 0.2);
+            z-index: 5;
+        }
+
+        .card-item:hover .eng-name, 
+        .card-item:hover .sub-info, 
+        .card-item:hover .arb-name, 
+        .card-item:hover .verse-count {
+            color: #fff !important;
+        }
+
+        .eng-name { font-weight: 700; font-size: 17px; color: #1a1a1a; }
+        .sub-info { font-size: 13px; color: #888; margin-top: 4px; }
+        .arb-name { font-family: 'Amiri', serif; font-size: 24px; font-weight: 700; color: #1a1a1a; }
+        .verse-count { font-size: 12px; color: #888; text-align: right; }
+
+        @media (max-width: 1024px) { .card-item { width: 50%; } }
+        @media (max-width: 768px) { .card-item { width: 100%; } .filter-controls { flex-direction: column; gap: 15px; } }
+        .blog-section {
+            height: 151vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 8%;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 500;
+            line-height: 1.1;
+            margin-bottom: 60px;
+            color: var(--text-dark);
+            letter-spacing: -1.5px;
+        }
+
+        /* Grille des articles */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .blog-card {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .image-box {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            background-color: #f5f5f5;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .blog-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .blog-content h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .blog-content p {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: gap 0.3s;
+        }
+
+        .read-more:hover {
+            gap: 12px;
+        }
+
+        /* Bouton central */
+        .footer-action {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .main-btn {
+            background-color: var(--btn-green);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.8rem;
+            transition: opacity 0.3s;
+        }
+
+        .main-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            h1 { font-size: 3rem; }
+            .blog-grid { grid-template-columns: repeat(2, 1fr); }
+            .blog-section { height: auto; padding: 80px 8%; }
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid { grid-template-columns: 1fr; }
+        }
+        .site-footer {
+    padding: 60px 5%;
+    background-color: #fff;
+    border-top: 1px solid #e0e0e0;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr; 
+    gap: 40px;
+    align-items: center;
+}
+
+/* Section Description */
+.footer-description p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #4a4a4a;
+    max-width: 300px;
+}
+
+/* Section Logo et Centre */
+.footer-center {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-logo img {
+    height: 30px;
+}
+
+.footer-logo span {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0d3b3f;
+}
+
+.copyright {
+    font-size: 12px;
+    color: #888;
+}
+
+.legal-links a {
+    font-size: 13px;
+    color: #0d3b3f;
+    text-decoration: underline;
+    margin: 0 10px;
+}
+
+/* Section Navigation Droite */
+.footer-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-row {
+    display: flex;
+    align-items: center;
+    margin: -10px ;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.nav-row:last-child {
+    border-bottom: none;
+}
+
+.nav-label {
+    width: 120px;
+    font-weight: 600;
+    font-size: 11px;
+    color: #1a1a1a;
+}
+
+/* Gestion des liens sans UL/LI */
+.nav-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* Pour éviter que ça dépasse sur petit écran */
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #666;
+    font-size: 11px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #0d3b3f;
+}
+
+/* Responsive pour mobiles */
+@media (max-width: 992px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .footer-description p {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    
+    .nav-row {
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px 0;
+    }
+    
+    .nav-label {
+        width: 100%;
+    }
+    
+    .nav-links {
+        justify-content: center;
+    }
+}
+        
+    </style>
+</head>
+<body>
+
+<section class="surah-section">
+    <div class="section-header">
+        <a href="applicationweb.html#section-2" class="back-home"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        <h2 class="section-title">The Holy Quran <br> Full List</h2>
+        
+        <div class="filter-controls">
+            <div class="tabs-container">
+                <button class="filter-tab active" data-type="surah">All Surah</button>
+                <button class="filter-tab" data-type="juz">By Juz</button>
+            </div>
+            <div class="search-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="surahSearch" placeholder="Search for a Surah...">
+            </div>
+        </div>
+
+        <div class="sorting-info">
+            <span>Total: <strong>114 Surahs</strong></span>
+            <span>Reader: <strong>Al-Hossary (Warsh)</strong></span>
+        </div>
+    </div>
+
+    <div id="mainContentContainer" class="content-wrapper"></div>
+</section>
+
+<audio id="globalAudio"></audio>
+
+    <section class="blog-section">
+        <div class="container">
+            <h1>Learn Quran and Islam<br>basics everyday.</h1>
+
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <div class="image-box">
+                        <img src="photo-1511091734515-e50d46c37240.avif" alt="Mosque">
+                    </div>
+                    <div class="blog-content">
+                        <h3>Where was islam created at first?</h3>
+                        <p>In this world, Islam is the major world religion promulgated by the prophet Muhammad(s)...</p>
+                        <a href="#" class="read-more">Read more →</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="image-box">
+                        <img src="817uTbGop8L.png" alt="Kaaba">
+                    </div>
+                    <div class="blog-content">
+                        <h3>How many years old is Kaaba?</h3>
+                        <p>The traditional belief is that Abraham built it around 5000 years ago. Ibrahim was ordered by Allah to build the...</p>
+                        <a href="#" class="read-more">Read more →</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="image-box">
+                        <img src="unnamed (10).jpg" alt="Quran">
+                    </div>
+                    <div class="blog-content">
+                        <h3>Benefits Of Reciting The Holy Quran?</h3>
+                        <p>We need guidance in every aspect of our life and the best guidance we can find is in the Quran...</p>
+                        <a href="#" class="read-more">Read more →</a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="footer-action">
+                <a href="#" class="main-btn">Read all news and blogs</a>
+            </div>
+        </div>
+    </section>
+    <footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-description">
+            <p>Explore the Quran's wisdom and immerse in Islamic music, connecting with spirituality through words and melodies on our platform</p>
+        </div>
+
+        <div class="footer-center">
+            <div class="footer-logo">
+                <i class="fas fa-book-open"></i> Tylawa
+            </div>
+            <p class="copyright">©2023 Qolb foundation. All rights reserved.</p>
+            <div class="legal-links">
+                <a href="#">Terms of Use</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <div class="nav-row">
+                <span class="nav-label">Menu:</span>
+                <nav class="nav-links">
+                    <a href="#">Reciters</a>
+                    <a href="#">Music</a>
+                    <a href="#">About Us</a>
+                    <a href="#">Blog</a>
+                </nav>
+            </div>
+            <div class="nav-row">
+                <span class="nav-label">Company:</span>
+                <nav class="nav-links">
+                    <a href="#">FAQs</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Help</a>
+                    <a href="#">Feedback</a>
+                </nav>
+            </div>
+            <div class="nav-row">
+                <span class="nav-label">Social Media:</span>
+                <nav class="nav-links">
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Threads</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const audio = document.getElementById('globalAudio');
+    const container = document.getElementById('mainContentContainer');
+    const searchInput = document.getElementById('surahSearch');
+    const tabs = document.querySelectorAll('.filter-tab');
+
+    const hossaryUrl = "https://server13.mp3quran.net/husr/";
+
+    // Lista kamla dyal 114 sourate
+    const allSurahs = [
+        "Al-Fatihah","Al-Baqarah","Al-Imran","An-Nisa'","Al-Ma'idah","Al-An'am","Al-A'raf","Al-Anfal","At-Tawbah","Yunus","Hud","Yusuf","Ar-Ra'd","Ibrahim","Al-Hijr","An-Nahl","Al-Isra'","Al-Kahf","Maryam","Ta-Ha","Al-Anbiya'","Al-Hajj","Al-Mu'minun","An-Nur","Al-Furqan","Ash-Shu'ara'","An-Naml","Al-Qasas","Al-Ankabut","Ar-Rum","Luqman","As-Sajdah","Al-Ahzab","Saba'","Fatir","Ya-Sin","As-Saffat","Sad","Az-Zumar","Ghafir","Fussilat","Ash-Shura","Az-Zukhruf","Ad-Dukhan","Al-Jathiyah","Al-Ahqaf","Muhammad","Al-Fath","Al-Hujurat","Qaf","Adh-Dhariyat","At-Tur","An-Najm","Al-Qamar","Ar-Rahman","Al-Waqi'ah","Al-Hadid","Al-Mujadilah","Al-Hashr","Al-Mumtahanah","As-Saff","Al-Jumu'ah","Al-Munafiqun","At-Taghabun","At-Talaq","At-Tahrim","Al-Mulk","Al-Qalam","Al-Haqqah","Al-Ma'arij","Nuh","Al-Jinn","Al-Muzzammil","Al-Muddaththir","Al-Qiyamah","Al-Insan","Al-Mursalat","An-Naba'","An-Nazi'at","Abasa","At-Takwir","Al-Infitar","Al-Mutaffifin","Al-Inshiqaq","Al-Buruj","At-Tariq","Al-A'la","Al-Ghashiyah","Al-Fajr","Al-Balad","Ash-Shams","Al-Layl","Ad-Duha","Ash-Sharh","At-Tin","Al-Alaq","Al-Qadr","Al-Bayyinah","Az-Zalzalah","Al-Adiyat","Al-Qari'ah","At-Takathur","Al-Asr","Al-Humazah","Al-Fil","Quraysh","Al-Ma'un","Al-Kawthar","Al-Kafirun","An-Nasr","Al-Masad","Al-Ikhlas","Al-Falaq","An-Nas"
+    ];
+
+    // Nami dyal l-anbiya/suwar b l-arabe (simplified list logic)
+    const arbNames = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
+
+    function loadAudio(id) {
+        const file = id.toString().padStart(3, '0');
+        audio.src = `${hossaryUrl}${file}.mp3`;
+        audio.play();
+    }
+
+    function renderAll(filter = "") {
+    let html = "";
+    allSurahs.forEach((name, index) => {
+        if (name.toLowerCase().includes(filter.toLowerCase())) {
+            const id = index + 1;
+            // Bddelna l-onclick bach t-dina l kk.html m3a l-ID dyal sourate
+            html += `
+            <div class="card-item" onclick="window.location.href='appweb.html?surah=${id}'">
+                <div class="left">
+                    <div class="eng-name">${id}. ${name}</div>
+                    <div class="sub-info">Holy Quran Surah</div>
+                </div>
+                <div class="right">
+                    <div class="arb-name">${arbNames[index]}</div>
+                    <div class="verse-count">Warsh Style</div>
+                </div>
+            </div>`;
+        }
+    });
+    container.innerHTML = html;
+}
+
+    // Filter Search
+    searchInput.oninput = (e) => renderAll(e.target.value);
+
+    // Initial load
+    renderAll();
+</script>
+
+</body>
+</html>

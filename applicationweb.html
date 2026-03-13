@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tylawa - Landing Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="applicationweb.css">
+</head>
+<body>
+
+    <section class="hero">
+        <nav>
+    <div class="logo">
+        <i class="fas fa-book-open"></i> Tylawa
+    </div>
+
+    <div id="mobile-menu-trigger" style="display: none; cursor: pointer; font-size: 28px; z-index: 10001;">
+        <i class="fas fa-bars" id="hamburger-icon"></i>
+    </div>
+
+    <ul class="nav-links" id="main-nav-links">
+        <li><a href="#">Reed</a></li>
+        <li><a href="#">Reciters</a></li>
+        <li><a href="#">Quran</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Blog</a></li>
+    </ul>
+
+    <div class="nav-right" id="nav-right">
+        <div class="theme-toggle">
+            <i class="fas fa-moon" style="margin-left: 6px;font-size: 19px;"></i>
+            <i class="fas fa-sun" style="background-color: white;padding: 10px 10px; border-radius: 20px;"></i>
+        </div>
+        <button class="sign-in-btn">Sign in</button>
+    </div>
+</nav>
+
+        <div class="hero-content">
+            <h1>Discover the Quran, & <br> Learn the Basics of Islam.</h1>
+
+            <div class="meta-info">
+                <div class="listeners">
+                    <div class="avatars">
+                        <div class="img img-1" ></div>
+                        <div class="img img-2" ></div>
+                        <div class="img img-3"></div>
+                    </div>
+                    <span style="font-size: 14px; font-weight: 500;">354k+ Total Monthly Listeners in Tylawa</span>
+                </div>
+                <div class="pill-text">Self-purification through the Quran</div>
+                <div style="width: 200px;height: 1px;background-color: black;margin-right: 60px;"></div>
+                <div style="width: 200px;height: 1px;background-color: black;"></div>
+            </div>
+
+            <div class="audio-player">
+    <div class="audio-header">
+        <p>Relaxation Radio (Surah)</p>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 id="surahTitle">Surah Al-Fatihah (1)</h3>
+            <i class="fas fa-ellipsis-v" style="font-size: 10px;"></i>
+        </div>
+    </div>
+    
+    <div class="progress-bar">
+        <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+    </div>
+    
+    <div class="time-info">
+        <span id="currentTime">00:00</span>
+        <span id="duration">00:00</span>
+    </div>
+
+    <div class="controls">
+        <i class="fas fa-redo-alt" onclick="audio.currentTime = 0" style="cursor:pointer"></i>
+        <i id="prevBtn" class="fas fa-step-backward" style="cursor:pointer"></i>
+        
+        <div class="play-btn" id="playBtn" style="cursor:pointer">
+            <i id="playIcon" class="fas fa-play"></i>
+        </div>
+        
+        <i id="nextBtn" class="fas fa-step-forward" style="cursor:pointer"></i>
+        <i class="fas fa-random"></i>
+    </div>
+</div>
+
+<audio id="quranAudio" src="https://server13.mp3quran.net/husr/001.mp3"></audio>
+        </div>
+
+        <div class="bottom-text">
+            <p>Explore the Quran's wisdom and immerse in Islamic Nasheed, connecting with spirituality through words and melodies on our platform</p>
+        </div>
+
+        <i class="fas fa-plus decor" style="top: 51.5%; right: 24%; opacity: 0.5;"></i>
+        <i class="fas fa-plus decor" style="bottom: 10%; right: 20%; opacity: 0.5;"></i>
+        <div class="category-section">
+  <div class="instruction-text">
+    <ul>
+      <li>Swap <strong>Left</strong> or <strong>Right</strong> to change Category</li>
+    </ul>
+  </div>
+
+  <div class="button-group">
+    <a href="#" class="pill">Soothing & relaxing song</a>
+    <a href="#" class="pill">Discover peace through relaxation</a>
+    <a href="#" class="pill">Explore serenity now</a>
+    <a href="#" class="pill">See More stuffs</a>
+  </div>
+</div>
+    </section>
+    <section class="surah-section" id="section-2">
+    <div class="section-header">
+        <h2 class="section-title">Let's start the journey of <br> Enlightenment</h2>
+        
+        <div class="filter-controls">
+            <div class="tabs-container">
+                <button class="filter-tab active" data-type="surah">Surah</button>
+                <button class="filter-tab" data-type="juz">Juz</button>
+                <button class="filter-tab" data-type="revelation">Revelation Order</button>
+            </div>
+            <div class="search-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="surahSearch" placeholder="Input your reading preferences">
+            </div>
+        </div>
+
+        <div class="sorting-info">
+            <span class="sort-text">Sort by: <strong>Ascending</strong></span>
+            <a href="See-All-Surah.html" class="see-all-link">See All Surah <i class="fas fa-chevron-right"></i></a>
+        </div>
+    </div>
+
+    <div id="mainContentContainer" class="content-wrapper">
+        </div>
+</section>
+
+<div id="surahDetailView" class="detail-view" style="display: none;">
+    <div class="surah-header-detail">
+        <button onclick="backToMain()" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
+        <div class="header-content">
+            <h1 id="detailSurahName"></h1>
+            <p id="detailSurahInfo"></p>
+        </div>
+    </div>
+    <div id="ayahsContainer" class="ayahs-list"></div>
+</div>
+
+<audio id="globalAudio"></audio>
+<section class="section-3">
+    <div class="main-wrapper">
+    <h1 class="h1">Hear the Quran accompanied by translations.</h1>
+    
+    <div class="app-grid">
+        <div class="mobile-controls">
+    <i class="fa-solid fa-bars" id="mobileMenuBtn"></i>
+</div>
+        <div class="nav-section" id="navSidebar">
+            <div class="surah-scroll" id="menuSurahList"></div>
+            <div style="text-align:center; padding: 20px;">
+                <a href="appweb.html" style="color:var(--clr-main); font-weight:600; text-decoration:none; font-size:0.9rem;">See All Surah</a>
+            </div>
+        </div>
+
+        <div class="content-viewer">
+            <div class="viewer-top-bar">
+                <div>Translation by <span style="color:var(--clr-main);">Sheikh Abdul Basit Abdul Samad</span></div>
+                <div style="color:#999;"><i class="fa-solid fa-circle-info"></i> History of Surah</div>
+            </div>
+
+            <div class="verses-container" id="displayVerseList"></div>
+
+            <div class="bottom-media-bar">
+                <div class="media-meta">
+                    <span id="labelPlaying">Sélectionnez un verset</span>
+                    <i class="fa-solid fa-ellipsis-vertical" style="color:#ccc;"></i>
+                </div>
+                
+                <div class="track-timeline" id="timelineSeeker">
+                    <div class="track-fill" id="trackProgress"><div class="track-handle"></div></div>
+                </div>
+                <div class="timestamp">
+                    <span id="timeElapsed">00:00</span>
+                    <span id="timeTotal">00:00</span>
+                </div>
+
+                <div class="media-btns">
+                    <button class="action-btn"><i class="fa-solid fa-repeat"></i></button>
+                    <button class="action-btn" id="btnPrev"><i class="fa-solid fa-backward-step"></i></button>
+                    <button class="action-btn big-play-btn" id="triggerPlay"><i class="fa-solid fa-play" id="iconPlayPause"></i></button>
+                    <button class="action-btn" id="btnNext"><i class="fa-solid fa-forward-step"></i></button>
+                    <button class="action-btn"><i class="fa-solid fa-shuffle"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<audio id="coreAudioPlayer"></audio>
+</section>
+<section class="main-container" id="section-4">
+        <div class="header-section">
+            <h1>Enjoy Holy Quran recited by your preferred reciters.</h1>
+            
+            <div class="controls">
+                <div class="search-bar">
+                    <input type="text" placeholder="Find you favorite reciter">
+                </div>
+                <a href="reciters-page.html" class="see-all">See All Reciters &gt;</a>
+            </div>
+        </div>
+
+        <div class="reciters-grid">
+            <div class="reciter-card">
+                <div class="image-container">
+                    <img src="unnamed.jpg" alt="Mishary Alafasy">
+                </div>
+                <p class="reciter-name">Mishary Bin Rashid Alafasy</p>
+            </div>
+
+            <div class="reciter-card">
+                <div class="image-container">
+                    <img src="unnamed (1).jpg" alt="Al-Sudais">
+                </div>
+                <p class="reciter-name">Abdul Rahman Al-Sudais</p>
+            </div>
+
+            <div class="reciter-card">
+                <div class="image-container">
+                    <img src="unnamed (2).jpg" alt="Abdul Samad">
+                </div>
+                <p class="reciter-name">Abdul-Basit Abdul Samad</p>
+            </div>
+
+            <div class="reciter-card">
+                <div class="image-container">
+                    <img src="unnamed (4).jpg" alt="Yasser Al Dosari">
+                </div>
+                <p class="reciter-name">Yasser Al Dosari</p>
+            </div>
+
+            <div class="reciter-card">
+                <div class="image-container">
+                    <img src="unnamed (3).jpg" alt="Abdul Aziz">
+                </div>
+                <p class="reciter-name">Abdul Aziz Bin Bandar Baleela</p>
+            </div>
+
+            <div class="reciter-card">
+                <div class="image-container">
+                    <img src="unnamed (5).jpg" alt="Abdur Rahman">
+                </div>
+                <p class="reciter-name">Abdur Rahman Al Ossi</p>
+            </div>
+        </div>
+    </section>
+    <section class="blog-section" id="blog-section">
+        <div class="container">
+            <h1>Learn Quran and Islam<br>basics everyday.</h1>
+
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <div class="image-box">
+                        <img src="photo-1511091734515-e50d46c37240.avif" alt="Mosque">
+                    </div>
+                    <div class="blog-content">
+                        <h3>Where was islam created at first?</h3>
+                        <p>In this world, Islam is the major world religion promulgated by the prophet Muhammad(s)...</p>
+                        <a href="history-article.html" class="read-more">Read more →</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="image-box">
+                        <img src="817uTbGop8L.png" alt="Kaaba">
+                    </div>
+                    <div class="blog-content">
+                        <h3>How many years old is Kaaba?</h3>
+                        <p>The traditional belief is that Abraham built it around 5000 years ago. Ibrahim was ordered by Allah to build the...</p>
+                        <a href="kaaba-blog.html" class="read-more">Read more →</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="image-box">
+                        <img src="unnamed (10).jpg" alt="Quran">
+                    </div>
+                    <div class="blog-content">
+                        <h3>Benefits Of Reciting The Holy Quran?</h3>
+                        <p>We need guidance in every aspect of our life and the best guidance we can find is in the Quran...</p>
+                        <a href="Benefits Of Reciting.html" class="read-more">Read more →</a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="footer-action">
+                <a href="blog-page.html" class="main-btn">Read all news and blogs</a>
+            </div>
+        </div>
+    </section>
+    <footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-description">
+            <p>Explore the Quran's wisdom and immerse in Islamic music, connecting with spirituality through words and melodies on our platform</p>
+        </div>
+
+        <div class="footer-center">
+            <div class="footer-logo">
+                <i class="fas fa-book-open"></i> Tylawa
+            </div>
+            <p class="copyright">©2023 Qolb foundation. All rights reserved.</p>
+            <div class="legal-links">
+                <a href="#">Terms of Use</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <div class="nav-row">
+                <span class="nav-label">Menu:</span>
+                <nav class="nav-links">
+                    <a href="#">Reciters</a>
+                    <a href="#">Music</a>
+                    <a href="#">About Us</a>
+                    <a href="#">Blog</a>
+                </nav>
+            </div>
+            <div class="nav-row">
+                <span class="nav-label">Company:</span>
+                <nav class="nav-links">
+                    <a href="#">FAQs</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Help</a>
+                    <a href="#">Feedback</a>
+                </nav>
+            </div>
+            <div class="nav-row">
+                <span class="nav-label">Social Media:</span>
+                <nav class="nav-links">
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Threads</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="applicationweb.js"></script>
+
+</body>
+</html>

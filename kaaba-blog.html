@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Histoire de la Kaaba</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.8;
+            color: #2d3436;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- ANIMATIONS PROFESSIONNELLES --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* --- LAYOUT --- */
+        .article-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .back-home {
+            text-decoration: none;
+            color: #008967;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        .back-home:hover { transform: translateX(-5px); }
+
+        .article-header { text-align: center; margin-bottom: 50px; }
+        .article-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            color: #1a1a1a;
+            margin-top: 10px;
+        }
+
+        .meta-data {
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 550px;
+            object-fit: cover;
+            border-radius: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .content-text {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            text-align: justify;
+            color: #444;
+            margin: auto;
+        }
+
+        .content-text strong { color: #000; }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .grid-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            transition: transform 0.5s ease;
+        }
+
+        .grid-img:hover { transform: scale(1.03); }
+
+        /* --- DELAYS POUR L'EFFET CASCADE --- */
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+
+        /* --- BOUTON LANGUE --- */
+        .lang-trigger {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: #008967;
+            color: white;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 8px 20px rgba(0,137,103,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .article-header h1 { font-size: 2.2rem; }
+            .image-grid { grid-template-columns: 1fr; }
+            .main-image { height: 350px; }
+        }
+        /* Style pour les sous-titres dans le texte */
+.content-text h2 {
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+/* Petite ligne décorative sous le titre */
+.content-text h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 50px;
+    height: 3px;
+    background-color: #008967;
+}
+
+/* Nouveau délai pour le dernier paragraphe */
+.delay-5 { 
+    animation-delay: 1s; 
+}
+.comment-section {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid #eee;
+    width: 90%;
+    margin: auto;
+}
+
+.comment-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    color: #1a1a1a;
+}
+
+/* Formulaire */
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    height: 100px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    font-family: inherit;
+    resize: none;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.comment-form textarea:focus {
+    border-color: #000;
+}
+
+.comment-form button {
+    align-self: flex-end;
+    background-color: #000;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.comment-form button:hover {
+    opacity: 0.8;
+}
+
+/* Liste des commentaires */
+.comment-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.comment-avatar {
+    width: 45px;
+    height: 45px;
+    background-color: #3498db;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.comment-author {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.comment-date {
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: #888;
+    margin-left: 10px;
+}
+
+.comment-content p {
+    margin: 0;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="lang-trigger"><i class="fas fa-language fa-lg"></i></div>
+
+    <div class="article-container">
+        
+        <a href="applicationweb.html#blog-section" class="back-home reveal"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+
+        <header class="article-header reveal delay-1">
+            <div class="meta-data">Patrimoine • Sacré</div>
+            <h1>How many years old is Kaaba?</h1>
+        </header>
+
+        <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=2070" alt="The Holy Kaaba" class="main-image reveal delay-2">
+
+        <div class="content-text reveal delay-3">
+            <p>
+                The traditional belief is that <strong>Abraham (Ibrahim)</strong> built the Kaaba around <strong>5000 years ago</strong>. According to Islamic history, Ibrahim was ordered by Allah to build the sanctuary as a place of monotheistic worship. 
+            </p>
+            <p>
+                Accompanied by his son Ishmael (Ismail), he constructed the foundations of what would become the most sacred site in Islam. Over the millennia, while the structure has been repaired and rebuilt several times, its spiritual significance has remained the heart of the Muslim world.
+            </p>
+        </div>
+
+        <div class="image-grid reveal delay-4">
+            <img src="/img/unnamed.jpg" alt="Makkah details" class="grid-img">
+            <img src="/img/unnamed (11).jpg" class="grid-img">
+        </div>
+        <div class="content-text reveal delay-5">
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #1a1a1a; margin-top: 40px;">The Spiritual Heart of the World</h2>
+    <p>
+        Today, the Kaaba stands as the direction (Qibla) towards which millions of Muslims turn five times a day during their prayers. Its cubic form, draped in the black silk <strong>Kiswa</strong>, represents a point of absolute unity for the global community. 
+    </p>
+    <p>
+        The traditional belief is that Ibrahim was ordered by Allah to build the sanctuary. This sacred task established Makkah as a sanctuary of peace. Every year, during the Hajj pilgrimage, the area around the Kaaba witnesses the "Tawaf", where believers circle the structure seven times, symbolizing the central role of God in a believer's life and the equality of all humans before their Creator.
+    </p>
+</div>
+<div class="content-text reveal delay-5">
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #1a1a1a; margin-top: 40px;">The Spiritual Heart of the World</h2>
+    <p>
+        Beyond its religious importance, the Kaaba is a masterpiece of architectural resilience. While the current structure has been reinforced over centuries to withstand the elements, it maintains the ancestral dimensions dictated by history.     </p>
+    <p>
+        The traditional belief is that Ibrahim was ordered by Allah to build the sanctuary. This sacred task established Makkah as a sanctuary of peace. Every year, during the Hajj pilgrimage, the area around the Kaaba witnesses the "Tawaf", where believers circle the structure seven times, symbolizing the central role of God in a believer's life and the equality of all humans before their Creator.
+    </p>
+</div>
+    </div>
+
+    <section class="comment-section">
+    <div class="comment-header">
+        <h3>Commentaires (2)</h3>
+    </div>
+
+    <form class="comment-form">
+        <textarea placeholder="Partagez votre avis sur cet article..."></textarea>
+        <button type="submit">Publier le commentaire</button>
+    </form>
+
+    <div class="comment-list">
+        <div class="comment-item">
+            <div class="comment-avatar">A</div>
+            <div class="comment-content">
+                <div class="comment-author">Amine Rahali <span class="comment-date">• Il y a 2 heures</span></div>
+                <p>Article très instructif. Les photos choisies illustrent parfaitement la beauté de l'architecture islamique.</p>
+            </div>
+        </div>
+
+        <div class="comment-item">
+            <div class="comment-avatar" style="background-color: #e67e22;">S</div>
+            <div class="comment-content">
+                <div class="comment-author">Sarah Ben <span class="comment-date">• Il y a 5 heures</span></div>
+                <p>Merci pour ces précisions historiques sur les débuts à La Mecque. C'est très clair !</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const commentForm = document.querySelector('.comment-form');
+    const commentList = document.querySelector('.comment-list');
+    const commentCount = document.querySelector('.comment-header h3');
+
+    // 1. Charger les commentaires sauvegardés au démarrage
+    window.onload = () => {
+        const savedComments = JSON.parse(localStorage.getItem('myBlogComments')) || [];
+        savedComments.forEach(comment => {
+            renderComment(comment.text, comment.date, false);
+        });
+        updateCounter();
+    };
+
+    // 2. Fonction pour afficher un commentaire dans le HTML
+    function renderComment(text, date, isNew = true) {
+        const newComment = document.createElement('div');
+        newComment.classList.add('comment-item');
+        newComment.innerHTML = `
+            <div class="comment-avatar" style="background-color: #27ae60;">U</div>
+            <div class="comment-content">
+                <div class="comment-author">Utilisateur <span class="comment-date">• ${date}</span></div>
+                <p>${text}</p>
+            </div>
+        `;
+        commentList.appendChild(newComment);
+        
+        if (isNew) {
+            saveComment(text, date);
+            updateCounter();
+        }
+    }
+
+    // 3. Sauvegarder dans le localStorage
+    function saveComment(text, date) {
+        const savedComments = JSON.parse(localStorage.getItem('myBlogComments')) || [];
+        savedComments.push({ text, date });
+        localStorage.setItem('myBlogComments', JSON.stringify(savedComments));
+    }
+
+    // 4. Mettre à jour le compteur (les 2 statiques + les sauvegardés)
+    function updateCounter() {
+        const extraComments = JSON.parse(localStorage.getItem('myBlogComments')) || [];
+        const total = 2 + extraComments.length;
+        commentCount.innerText = `Commentaires (${total})`;
+    }
+
+    // 5. Gérer l'envoi du formulaire
+    commentForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const textarea = this.querySelector('textarea');
+        const message = textarea.value.trim();
+        const now = new Date().toLocaleDateString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+        if (message !== "") {
+            renderComment(message, "Le " + now, true);
+            textarea.value = "";
+        }
+    });
+</script>
+</body>
+</html>

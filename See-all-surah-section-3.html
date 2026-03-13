@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran App - Full Verses Fix</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri&family=Inter:wght@300;400;600&display=swap');
+
+        :root {
+            --primary: #2d6a4f;
+            --primary-light: #f0fdf4;
+            --text-main: #1a1a1a;
+            --text-muted: #94a3b8;
+            --border: #f1f5f9;
+            --sidebar-w: 80px;
+            --list-w: 350px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #fff; color: var(--text-main); height: 100vh; display: flex; overflow: hidden; }
+
+        /* Sidebar */
+        .sidebar { width: var(--sidebar-w); border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 2rem 0; gap: 2rem; z-index: 50; background: #fff; }
+        .sidebar-btn { color: var(--text-muted); cursor: pointer; font-size: 1.2rem; padding: 12px; border-radius: 12px; transition: 0.2s; }
+        .sidebar-btn:hover, .sidebar-active { color: var(--primary); background: var(--primary-light); }
+
+        /* Liste latérale */
+        .side-list-container { width: var(--list-w); border-right: 1px solid var(--border); display: flex; flex-direction: column; background: #fff; flex-shrink: 0; }
+        .tabs { display: flex; background: #f8fafc; margin: 1.25rem; padding: 4px; border-radius: 12px; }
+        .tab-btn { flex: 1; border: none; padding: 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; color: var(--text-muted); background: transparent; }
+        .tab-active { background: #fff; color: var(--text-main); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+        .search-box { margin: 0 1.25rem 1.25rem; position: relative; }
+        .search-box input { width: 100%; padding: 12px 12px 12px 40px; border-radius: 12px; border: 1px solid var(--border); background: #f8fafc; outline: none; }
+        .search-box i { position: absolute; left: 15px; top: 14px; color: var(--text-muted); }
+
+        .items-scroll { flex: 1; overflow-y: auto; }
+        .item-row { padding: 1.25rem; border-bottom: 1px solid #f8fafc; cursor: pointer; display: flex; align-items: center; gap: 1rem; }
+        .item-row:hover { background: #f8fafc; }
+
+        /* Main Content */
+        .main-content { flex: 1; display: flex; flex-direction: column; min-width: 0; position: relative; }
+        header { height: 64px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; background: #fff; z-index: 10; }
+        
+        .reader-area { flex: 1; overflow-y: auto; padding: 3rem 10% 5rem; text-align: right; }
+
+        /* Ayah Card */
+        .ayah-card { margin-bottom: 3.5rem; border-bottom: 1px solid #f8fafc; padding-bottom: 2.5rem; display: flex; gap: 2.5rem; }
+        .ayah-tools { display: flex; flex-direction: column; gap: 1.5rem; color: var(--text-muted); min-width: 45px; text-align: left; }
+        .ayah-tools i { cursor: pointer; transition: 0.2s; font-size: 1.1rem; }
+        .ayah-tools i:hover { color: var(--primary); }
+
+        .arabic-text { font-family: 'Amiri', serif; font-size: 2.2rem; color: #1e293b; line-height: 2.5; direction: rtl; }
+        .trans-text { font-size: 1.1rem; color: #64748b; font-weight: 300; text-align: left; margin-top: 15px; line-height: 1.6; }
+
+        /* Popover Menu */
+        .menu-popover { position: absolute; background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 200px; z-index: 1000; display: none; padding: 8px; }
+        .menu-item { padding: 12px; cursor: pointer; border-radius: 8px; font-size: 14px; display: flex; align-items: center; gap: 12px; }
+        .menu-item:hover { background: var(--primary-light); color: var(--primary); }
+
+        /* Drawer Tafsir */
+        .drawer { position: fixed; top: 0; right: 0; height: 100%; width: 450px; background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1); transform: translateX(100%); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1100; display: flex; flex-direction: column; }
+        .drawer-open { transform: translateX(0); }
+        .drawer-header { padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            body { flex-direction: column-reverse; }
+            .sidebar { width: 100%; height: 60px; flex-direction: row; justify-content: space-around; padding: 0; border-top: 1px solid var(--border); border-right: none; }
+            .side-list-container { width: 100%; height: 40vh; border-right: none; }
+            header { padding: 0 1rem; }
+            .reader-area { padding: 2rem 1.2rem 5rem; }
+            
+            /* On aligne les outils horizontalement sur mobile */
+            .ayah-card { flex-direction: column; gap: 1rem; }
+            .ayah-tools { flex-direction: row; min-width: 100%; border-bottom: 1px solid #f8fafc; padding-bottom: 10px; gap: 1.5rem; }
+            .arabic-text { font-size: 1.7rem; }
+            .drawer { width: 100%; }
+        }
+
+        .loader { width: 35px; height: 35px; border: 3px solid #f3f3f3; border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 3rem auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-btn sidebar-active" onclick="location.reload()"><i class="fa-solid fa-house"></i></div>
+        <div class="sidebar-btn"><i class="fa-solid fa-book-quran"></i></div>
+        <div class="sidebar-btn" id="btnBookmarks"><i class="fa-solid fa-bookmark"></i></div>
+        <div class="sidebar-btn mt-auto"><i class="fa-solid fa-gear"></i></div>
+    </nav>
+
+    <section class="side-list-container">
+        <div class="tabs">
+            <button class="tab-btn tab-active" id="tabSurah">Surah</button>
+            <button class="tab-btn" id="tabJuz">Juz</button>
+        </div>
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Chercher une sourate...">
+        </div>
+        <div id="itemsList" class="items-scroll"></div>
+    </section>
+
+    <main class="main-content">
+        <header>
+            <button onclick="location.reload()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-weight:600">
+                <i class="fa-solid fa-arrow-left"></i> Home
+            </button>
+            <div style="background:var(--primary); color:white; padding:8px 18px; border-radius:20px; font-size:12px; font-weight:600">Support Us ❤️</div>
+        </header>
+
+        <div id="readerArea" class="reader-area">
+            <div style="text-align:center; margin-top:100px; color:var(--text-muted)">
+                <i class="fa-solid fa-book-open" style="font-size:5rem; margin-bottom:1rem; opacity:0.2"></i>
+                <p>Choisissez une sourate ou un Juz</p>
+            </div>
+        </div>
+
+        <div id="contextMenu" class="menu-popover">
+            <div class="menu-item" onclick="handleAction('copy')"><i class="fa-regular fa-copy"></i> Copier</div>
+            <div class="menu-item" onclick="handleAction('save')"><i class="fa-regular fa-bookmark"></i> Enregistrer</div>
+            <div class="menu-item" onclick="handleAction('share')"><i class="fa-solid fa-share-nodes"></i> Partager</div>
+        </div>
+    </main>
+
+    <div id="tafsirDrawer" class="drawer">
+        <div class="drawer-header">
+            <h3 style="color:var(--primary)">Explication (Tafsir)</h3>
+            <i class="fa-solid fa-xmark" style="cursor:pointer" onclick="closeTafsir()"></i>
+        </div>
+        <div id="tafsirContent" style="padding:2rem; overflow-y:auto; font-family:'Amiri'; font-size:1.5rem; text-align:right; line-height:2"></div>
+    </div>
+
+    <script>
+        const API = "https://api.quran.com/api/v4";
+        const TAFSIR_API = "https://api.alquran.cloud/v1/ayah";
+        let allSurahs = [];
+        let savedAyahs = JSON.parse(localStorage.getItem('saved_ayahs')) || [];
+        let currentAyahData = null;
+        let audio = new Audio();
+
+        // 1. Charger les sourates au début
+        async function init() {
+            try {
+                const res = await fetch(`${API}/chapters?language=fr`);
+                const data = await res.json();
+                allSurahs = data.chapters;
+                renderSurahs(allSurahs);
+            } catch (e) { console.error("Erreur chargement liste"); }
+        }
+
+        function renderSurahs(data) {
+            document.getElementById('itemsList').innerHTML = data.map(s => `
+                <div class="item-row" onclick="loadContent('surah', ${s.id}, '${s.name_complex}', ${s.verses_count})">
+                    <div style="font-weight:bold; color:var(--primary); width:25px">${s.id}</div>
+                    <div style="flex:1">
+                        <div style="font-weight:600; font-size:14px">${s.name_complex}</div>
+                        <div style="color:var(--text-muted); font-size:10px">${s.translated_name.name}</div>
+                    </div>
+                    <div style="font-family:'Amiri'; color:var(--primary)">${s.name_arabic}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderJuzList() {
+            let html = "";
+            for (let i = 1; i <= 30; i++) {
+                html += `<div class="item-row" onclick="loadContent('juz', ${i}, 'Juz ${i}', 300)"><b>${i}</b><div style="margin-left:15px">Juz ${i}</div></div>`;
+            }
+            document.getElementById('itemsList').innerHTML = html;
+        }
+
+        // --- NAVIGATION & RECHERCHE ---
+        document.getElementById('tabSurah').onclick = function() {
+            this.classList.add('tab-active');
+            document.getElementById('tabJuz').classList.remove('tab-active');
+            renderSurahs(allSurahs);
+        };
+        document.getElementById('tabJuz').onclick = function() {
+            this.classList.add('tab-active');
+            document.getElementById('tabSurah').classList.remove('tab-active');
+            renderJuzList();
+        };
+        document.getElementById('searchInput').oninput = (e) => {
+            const val = e.target.value.toLowerCase();
+            renderSurahs(allSurahs.filter(s => s.name_complex.toLowerCase().includes(val)));
+        };
+
+        // 2. CHARGEMENT COMPLET (Fixé pour charger TOUTES les ayat)
+        async function loadContent(type, id, title, count) {
+            const area = document.getElementById('readerArea');
+            area.innerHTML = '<div class="loader"></div>';
+            
+            // On ajoute per_page=count pour avoir tous les versets
+            const url = type === 'surah' 
+                ? `${API}/verses/by_chapter/${id}?language=fr&translations=31&fields=text_uthmani&per_page=${count}`
+                : `${API}/verses/by_juz/${id}?language=fr&translations=31&fields=text_uthmani&per_page=500`;
+
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                area.innerHTML = `<h1 style="text-align:center; margin-bottom:3rem">${title}</h1>`;
+                
+                data.verses.forEach(v => {
+                    const [sNum, aNum] = v.verse_key.split(':');
+                    const card = document.createElement('div');
+                    card.className = 'ayah-card';
+                    card.innerHTML = `
+                        <div class="ayah-tools">
+                            <span style="font-size:10px; font-weight:bold; color:var(--primary)">${v.verse_key}</span>
+                            <i class="fa-solid fa-play" onclick="playAyah('${v.verse_key}', this)"></i>
+                            <i class="fa-solid fa-book-open" onclick="openTafsir(${sNum}, ${aNum})"></i>
+                            <i class="fa-solid fa-ellipsis-vertical" onclick="showMenu(event, '${v.verse_key}', '${v.text_uthmani.replace(/'/g, "\\'")}')"></i>
+                        </div>
+                        <div style="flex:1">
+                            <div class="arabic-text">${v.text_uthmani}</div>
+                            <div class="trans-text">${v.translations[0].text}</div>
+                        </div>
+                    `;
+                    area.appendChild(card);
+                });
+                area.scrollTo(0,0);
+            } catch (e) { area.innerHTML = "Erreur de chargement."; }
+        }
+
+        // --- AUDIO ---
+        async function playAyah(key, btn) {
+            if (btn.classList.contains('fa-pause')) {
+                audio.pause();
+                btn.className = 'fa-solid fa-play';
+                return;
+            }
+            document.querySelectorAll('.fa-pause').forEach(i => i.className = 'fa-solid fa-play');
+            try {
+                const res = await fetch(`${API}/recitations/1/by_ayah/${key}`);
+                const data = await res.json();
+                audio.src = "https://audio.qurancdn.com/" + data.audio_files[0].url;
+                audio.play();
+                btn.className = 'fa-solid fa-pause';
+                audio.onended = () => btn.className = 'fa-solid fa-play';
+            } catch (e) { alert("Audio non disponible"); }
+        }
+
+        // --- TAFSIR ---
+        async function openTafsir(s, a) {
+            const drawer = document.getElementById('tafsirDrawer');
+            document.getElementById('tafsirContent').innerHTML = '<div class="loader"></div>';
+            drawer.classList.add('drawer-open');
+            try {
+                const res = await fetch(`${TAFSIR_API}/${s}:${a}/ar.jalalayn`);
+                const data = await res.json();
+                document.getElementById('tafsirContent').innerHTML = data.data.text;
+            } catch (e) { document.getElementById('tafsirContent').innerHTML = "Erreur Tafsir"; }
+        }
+        function closeTafsir() { document.getElementById('tafsirDrawer').classList.remove('drawer-open'); }
+
+        // --- MENU CONTEXTUEL ---
+        function showMenu(e, key, text) {
+            e.stopPropagation();
+            currentAyahData = { key, text };
+            const menu = document.getElementById('contextMenu');
+            menu.style.display = 'block';
+            menu.style.left = (e.pageX < window.innerWidth - 200 ? e.pageX : e.pageX - 180) + 'px';
+            menu.style.top = e.pageY + 'px';
+        }
+        document.addEventListener('click', () => document.getElementById('contextMenu').style.display = 'none');
+
+        window.handleAction = (type) => {
+            if(type === 'copy') navigator.clipboard.writeText(currentAyahData.text);
+            if(type === 'save') {
+                if(!savedAyahs.find(a => a.key === currentAyahData.key)) {
+                    savedAyahs.push(currentAyahData);
+                    localStorage.setItem('saved_ayahs', JSON.stringify(savedAyahs));
+                }
+            }
+            if(type === 'share') navigator.clipboard.writeText(`https://quran.com/${currentAyahData.key.replace(':','/')}`);
+            alert("Action réussie");
+        };
+
+        // Signets
+        document.getElementById('btnBookmarks').onclick = () => {
+            const area = document.getElementById('readerArea');
+            area.innerHTML = `<h1 style="text-align:center">Mes Favoris</h1>`;
+            if(savedAyahs.length === 0) area.innerHTML += "<p style='text-align:center'>Aucun favori.</p>";
+            savedAyahs.forEach(a => {
+                area.innerHTML += `<div class="ayah-card"><div class="ayah-tools"><b>${a.key}</b></div><div style="flex:1"><div class="arabic-text">${a.text}</div></div></div>`;
+            });
+        };
+
+        init();
+    </script>
+</body>
+</html>

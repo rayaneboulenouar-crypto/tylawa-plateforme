@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tylawa - Quran App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="appweb.css">
+    
+</head>
+<body>
+
+    <header>
+        <div class="donate">
+            <p>It's the month of the Quran. <span style="text-decoration: underline;">Help us spread its light.</span></p>
+            <div class="donate-block">Donate</div>
+        </div>
+        <nav>
+            <div  class="logo" ><i class="fas fa-book-open"></i><a href="applicationweb.html" style="text-decoration: none; color: black;">Tylawa</a> </div>
+            <div class="nav-right-icons">
+                <i class="fa-solid fa-globe" id="open-languages"></i>
+                <i class="fa-solid fa-magnifying-glass" id="open-search"></i>
+                <i class="fa-regular fa-user"></i>
+                <i class="fa-solid fa-bars" id="open-settings"></i>
+            </div>
+        </nav>
+        
+        <div class="sub-bar">
+            <div class="surah-select" id="header-surah-btn">
+                <span>1. Al-Fatihah</span>
+                <i class="fas fa-chevron-down" style="font-size: 10px; margin-left: 5px;"></i>
+            </div>
+            <div class="display-options">
+                    <div class="view-toggle">
+                        <div id="btn-verse" class="toggle-btn active">
+                            <i class="fas fa-list-ul"></i> Verse by Verse
+                        </div>
+                        <div id="btn-reading" class="toggle-btn">
+                            <i class="fas fa-align-right"></i> Reading
+                        </div>
+                    </div>
+        </div>
+        
+        
+    </header>
+    
+    <div class="main-layout">
+        <aside id="surah-sidebar-nav">
+            <div style="padding: 20px; border-bottom: 1px solid #eee;">
+                <div class="tab-menu">
+                <div class="tab-item active" id="tab-surah">Surah</div>
+                <div class="tab-item" id="tab-verse">Verse</div>
+                <div class="tab-item" id="tab-juz">Juz</div>
+                <div class="tab-item" id="tab-page">Page</div>
+            </div>
+                <input type="text" placeholder="Search Surah" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee; outline:none; background:#f9f9f9;">
+            </div>
+            <div id="full-surah-list" style="overflow-y:auto; flex:1;"></div>
+        </aside>
+
+        <aside id="verse-sidebar-nav">
+            <div style="padding: 15px; font-weight: 600; text-align: center; border-bottom: 1px solid #eee;">Verse</div>
+            <div id="verses-list" style="overflow-y:auto; flex:1;"></div>
+        </aside>
+
+        <section id="content-area">
+    <div class="audio-controls-row">
+    <button id="btn-listen" class="btn-listen">
+        <i class="fas fa-play play-icon"></i> Listen
+    </button>
+    <div id="reciter-trigger" class="translation-select" style="cursor:pointer;">
+        <span>Select Reciter</span>
+        <i class="fas fa-chevron-right" style="margin-left:10px; font-size:10px;"></i>
+    </div>
+    <div class="edition-selector-container" style="text-align: center; margin: 20px 0;">
+    <button id="open-editions" class="edition-main-btn">
+        <i class="fas fa-book-reader"></i>
+        <span id="current-edition-name">رواية حفص</span>
+    </button>
+</div>
+
+<div id="editions-sidebar" class="settings-sidebar">
+    <div class="sidebar-header">
+        <h3>اختر الرواية</h3>
+        <i class="fas fa-times" id="close-editions" style="cursor:pointer;"></i>
+    </div>
+    <div class="editions-list">
+        <div class="edition-group">
+            <h4>نافع المدني</h4>
+            <div class="search-item" onclick="setEdition('quran-prounciation', 'رواية قالون')">رواية قالون</div>
+            <div class="search-item" onclick="setEdition('quran-warsh', 'رواية ورش')">رواية ورش</div>
+        </div>
+        
+        <div class="edition-group">
+            <h4>ابن كثير المكي</h4>
+            <div class="search-item" onclick="setEdition('quran-simple', 'رواية البزي')">رواية البزي</div>
+            <div class="search-item" onclick="setEdition('quran-simple', 'رواية قنبل')">رواية قنبل</div>
+        </div>
+
+        <div class="edition-group">
+            <h4>أبو عمرو البصري</h4>
+            <div class="search-item" onclick="setEdition('quran-simple', 'رواية الدوري')">رواية الدوري</div>
+            <div class="search-item" onclick="setEdition('quran-simple', 'رواية السوسي')">رواية السوسي</div>
+        </div>
+
+        <div class="edition-group">
+            <h4>عاصم الكوفي</h4>
+            <div class="search-item" onclick="setEdition('quran-uthmani', 'رواية حفص')">رواية حفص</div>
+            <div class="search-item" onclick="setEdition('quran-simple', 'رواية شعبة')">رواية شعبة</div>
+        </div>
+        </div>
+</div>
+</div>
+
+<div id="audio-player-bar" style="position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #eee; padding: 10px 40px; display: none; align-items: center; justify-content: space-between; z-index: 1002;">
+    <div id="player-info" style="display: flex; align-items: center; gap: 15px;">
+        <div style="background: #2ca4ab; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-microphone"></i>
+        </div>
+        <div>
+            <div id="current-reciter-name" style="font-weight: 600; font-size: 14px;">Reciter Name</div>
+            <div id="current-surah-name" style="font-size: 12px; color: #666;">Surah Name</div>
+        </div>
+    </div>
+    <div class="player-controls" style="display: flex; align-items: center; gap: 20px;">
+        <audio id="main-audio-player" controls style="height: 35px;"></audio>
+        <i class="fas fa-times" id="close-player" style="cursor: pointer; color: #999;"></i>
+    </div>
+</div>
+
+<div class="settings-sidebar" id="reciter-sidebar">
+    <div class="sidebar-header" style="display:flex; justify-content:space-between; align-items:center;">
+        <h3>Recitation Type</h3>
+        <i class="fas fa-times" id="close-reciters" style="cursor:pointer;"></i>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
+        <button onclick="showReciters('hafs')" style="padding: 15px; border-radius: 8px; border: 1px solid #eee; background: #f9f9f9; cursor: pointer; font-weight: 600;">Hafss</button>
+        <button onclick="showReciters('warsh')" style="padding: 15px; border-radius: 8px; border: 1px solid #eee; background: #f9f9f9; cursor: pointer; font-weight: 600;">Warsh</button>
+    </div>
+    <div id="reciters-list-container" style="margin-top: 20px; max-height: 70vh; overflow-y: auto;"></div>
+</div>
+
+    <div id="view-verse">
+        <div class="q-wrapper">
+            <div class="q-header">
+                <div class="q-arabic-title">الفَاتِحَةِ</div>
+                <div class="q-title-row">
+                    <span class="q-surah-name">1. Al-Fatihah</span>
+                    <span class="q-badge">info</span>
+                </div>
+                <div class="q-translation-title">The Opener</div>
+            </div>
+
+            <div class="q-ayah-box">
+                <div class="q-actions-row">
+                    <div class="q-left-tools">
+                        <span class="q-id">1:1</span>
+                        <i class="fa-solid fa-play q-icon-btn"></i>
+                        <i class="fa-regular fa-bookmark q-icon-btn"></i>
+                    </div>
+                    <div class="q-right-tools">
+                        <i class="fa-regular fa-copy q-icon-btn"></i>
+                        <i class="fa-solid fa-share-nodes q-icon-btn"></i>
+                        <i class="fa-regular fa-pen-to-square q-icon-btn"></i>
+                        <i class="fa-solid fa-ellipsis q-icon-btn"></i>
+                    </div>
+                </div>
+                <div class="q-text-content">
+                    <div class="q-arabic-line">
+                        بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ <span class="q-ayah-num">①</span>
+                    </div>
+                    <div class="q-english-line">
+                        In the Name of Allah—the Most Compassionate, Most Merciful.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="q-footer-tabs">
+                <div class="q-tab"><i class="fa-solid fa-book-open"></i> Tafsirs</div>
+                <div class="q-tab"><i class="fa-solid fa-graduation-cap"></i> Lessons</div>
+                <div class="q-tab"><i class="fa-regular fa-comment-dots"></i> Reflections</div>
+                <div class="q-tab"><i class="fa-regular fa-lightbulb"></i> Answers</div>
+                <div class="q-tab"><i class="fa-solid fa-book"></i> Hadith</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-reading" style="display: none;">
+        <div class="fth-main-wrapper">
+
+            <div class="fth-body-section">
+                <div class="fth-script-area">
+                    بِسْمِ اللَّهِ <span class="fth-accent-word">الرَّحْمَٰنِ</span> الرَّحِيمِ <span class="fth-verse-mark">①</span>
+                    ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ <span class="fth-verse-mark">②</span>
+                    مَٰلِكِ يَوْمِ ٱلدِّينِ <span class="fth-verse-mark">④</span>
+                    إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ <span class="fth-verse-mark">⑤</span>
+                    ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ <span class="fth-verse-mark">⑥</span>
+                    صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ <span class="fth-verse-mark">⑦</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="settings-sidebar" id="search-sidebar">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3>Search</h3>
+        <i class="fas fa-times" id="close-search" style="cursor:pointer;"></i>
+    </div>
+    <input type="text" id="main-search-input" placeholder="Search for a Surah..." style="width:100%; padding:12px; border-radius:8px; border:1px solid #eee; margin-bottom:20px;">
+    
+    <div id="search-results-container" style="max-height: 75vh; overflow-y: auto;"></div>
+</div>
+
+    <div class="settings-sidebar" id="language-sidebar">
+        <div class="sidebar-header"><h3>Language</h3><i class="fas fa-times" id="close-languages" style="cursor:pointer;"></i></div>
+        <div style="margin-top:20px;">
+            <div class="search-item">English</div>
+            <div class="search-item">Français</div>
+            <div class="search-item">العربية</div>
+        </div>
+    </div>
+
+    <div class="settings-sidebar" id="settings-sidebar">
+        <div class="sidebar-header"><h3>Settings</h3><i class="fas fa-times" id="close-settings" style="cursor:pointer;"></i></div>
+        <p style="margin-top:20px; font-size:14px; color:#666;">Font Size</p>
+        <input type="range" style="width:100%; margin-top:10px;">
+        <button id="done-settings" style="width:100%; padding:12px; background:#134447; color:#fff; border:none; border-radius:8px; margin-top:30px; cursor:pointer;">Save Changes</button>
+    </div>
+
+    
+    <script src="appweb.js"></script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qolb Player - Holy Quran</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --primary-green: #00a36c;
+            --bg-gray: #f7f9f8;
+            --text-main: #1a1a1a;
+            --card-white: #ffffff;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-gray);
+            color: var(--text-main);
+            padding-bottom: 120px; /* Espace pour le lecteur fixe */
+        }
+
+        /* Barre de navigation / Header */
+        .player-header {
+            background: white;
+            padding: 20px 8%;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--primary-green);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        #reciter-img-mini {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            object-fit: cover;
+            background-color: #e8f4f1;
+        }
+
+        .reciter-details h1 {
+            font-size: 1.3rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .reciter-details span {
+            font-size: 0.8rem;
+            color: var(--primary-green);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Grille des Sourates */
+        .main-content {
+            padding: 40px 8%;
+        }
+
+        .surah-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .surah-card {
+            background: var(--card-white);
+            padding: 20px;
+            border-radius: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .surah-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-green);
+        }
+
+        .surah-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .surah-name {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-main);
+        }
+
+        .surah-subtext {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .play-button {
+            width: 45px;
+            height: 45px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+
+        .play-button:active {
+            transform: scale(0.9);
+        }
+
+        /* Lecteur Audio Fixe en bas */
+        .player-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 20px 8%;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #current-track-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 800px;
+            height: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .player-header { gap: 15px; padding: 15px 5%; }
+            .surah-grid { grid-template-columns: 1fr; }
+            audio { width: 100%; }
+        }
+        .back-home {
+            text-decoration: none;
+            color: #008967;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="player-header">
+        <a href="applicationweb.html#section-2" class="back-home"><i class="fas fa-arrow-left"></i> Return</a>
+        <div class="header-content">
+            <img src="" id="reciter-img-mini" alt="Cheikh">
+            <div class="reciter-details">
+                <h1 id="reciter-name">Chargement...</h1>
+                <span><i class="icon">🎧</i> Tylawa Music (Quran)</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="surah-grid" id="surah-grid">
+            </div>
+    </main>
+
+    <footer class="player-bar">
+        <p id="current-track-title">Sélectionnez une sourate pour commencer l'écoute</p>
+        <audio id="audio-element" controls autoplay>
+            <source src="" type="audio/mpeg">
+            Votre navigateur ne supporte pas l'élément audio.
+        </audio>
+    </footer>
+
+    <script>
+        /* --- JAVASCRIPT LOGIC --- */
+
+        // 1. Récupération des données du Cheikh via l'URL (ID, Nom, Image)
+        /* --- JAVASCRIPT LOGIC MIS À JOUR --- */
+
+// 1. Récupération des données du Cheikh via l'URL
+const urlParams = new URLSearchParams(window.location.search);
+const reciterId = urlParams.get('id') || 'afs'; 
+const reciterName = urlParams.get('name') || 'Mishary Bin Rashid Alafasy';
+const reciterImg = urlParams.get('img') || 'unnamed.jpg';
+const serverId = urlParams.get('srv') || '8'; // Récupère le serveur spécifique au cheikh
+
+// Mise à jour visuelle du header
+document.getElementById('reciter-name').innerText = reciterName;
+document.getElementById('reciter-img-mini').src = reciterImg;
+
+// 2. Liste des noms des sourates (Gardée telle quelle)
+const surahNames = [
+    "Al-Faatiha", "Al-Baqara", "Aal-i-Imraan", "An-Nisaa", "Al-Maaida", "Al-An'aam",
+    "Al-A'raaf", "Al-Anfaal", "At-Tawba", "Yunus", "Hud", "Yusuf", "Ar-Ra'd",
+    "Ibrahim", "Al-Hijr", "An-Nahl", "Al-Israa", "Al-Kahf", "Maryam", "Taa-Haa",
+    "Al-Anbiyaa", "Al-Hajj", "Al-Muminoon", "An-Noor", "Al-Furqaan", "Ash-Shu'araa",
+    "An-Naml", "Al-Qasas", "Al-Ankaboot", "Ar-Room", "Luqman", "As-Sajda",
+    "Al-Ahzaab", "Saba", "Faatir", "Ya-Seen", "As-Saaffaat", "Sad", "Az-Zumar",
+    "Ghafir", "Fussilat", "Ash-Shura", "Az-Zukhruf", "Ad-Dukhan", "Al-Jathiya",
+    "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujuraat", "Qaf", "Adh-Dhaariyat",
+    "At-Toor", "An-Najm", "Al-Qamar", "Ar-Rahmaan", "Al-Waaqia", "Al-Hadid",
+    "Al-Mujaadila", "Al-Hashr", "Al-Mumtahina", "As-Saff", "Al-Jumu'a", "Al-Munaafiqoon",
+    "At-Taghaabun", "At-Talaaq", "At-Tahrim", "Al-Mulk", "Al-Qalam", "Al-Haaqqa",
+    "Al-Ma'aarij", "Nooh", "Al-Jinn", "Al-Muzzammil", "Al-Muddaththir", "Al-Qiyaama",
+    "Al-Insaan", "Al-Mursalaat", "An-Naba", "An-Naazi'aat", "Abasa", "At-Takwir",
+    "Al-Infitaar", "Al-Mutaffifin", "Al-Inshiqaaq", "Al-Burooj", "At-Taariq", "Al-A'la",
+    "Al-Ghaashiya", "Al-Fajr", "Al-Balad", "Ash-Shams", "Al-Layl", "Ad-Duhaa",
+    "Ash-Sharh", "At-Tin", "Al-Alaq", "Al-Qadr", "Al-Bayyina", "Az-Zalzala",
+    "Al-Aadiyaat", "Al-Qaari'a", "At-Takaathur", "Al-Asr", "Al-Humaza", "Al-Fil",
+    "Quraish", "Al-Maa'oon", "Al-Kawthar", "Al-Kaafiroon", "An-Nasr", "Al-Masad",
+    "Al-Ikhlaas", "Al-Falaq", "An-Naas"
+];
+
+const surahGrid = document.getElementById('surah-grid');
+const audioElement = document.getElementById('audio-element');
+const trackTitle = document.getElementById('current-track-title');
+
+// 3. Génération dynamique
+surahNames.forEach((name, index) => {
+    const surahNum = index + 1;
+    const formattedNum = surahNum.toString().padStart(3, '0');
+
+    const card = document.createElement('div');
+    card.className = 'surah-card';
+    card.innerHTML = `
+        <div class="surah-info">
+            <span class="surah-name">${surahNum}. ${name}</span>
+            <span class="surah-subtext">The Holy Quran</span>
+        </div>
+        <button class="play-button" onclick="playSurah('${formattedNum}', '${name}')">▶</button>
+    `;
+    surahGrid.appendChild(card);
+});
+
+// 4. Fonction pour changer l'audio dynamiquement
+function playSurah(num, name) {
+    // Utilise dynamiquement le serveur et l'ID du récitateur
+    const audioUrl = `https://server${serverId}.mp3quran.net/${reciterId}/${num}.mp3`;
+    
+    audioElement.src = audioUrl;
+    audioElement.play();
+    
+    trackTitle.innerText = `Lecture : Sourate ${name} - ${reciterName}`;
+}
+    </script>
+</body>
+</html>

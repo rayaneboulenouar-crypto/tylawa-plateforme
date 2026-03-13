@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Hifd - Strict Mode</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #ffffff;
+            --tajweed-red: #ef4444;
+            --tajweed-blue: #3b82f6;
+            --tajweed-orange: #f59e0b;
+            --error-color: #ff0000;
+        }
+        body { margin: 0; font-family: 'Amiri', serif; background: var(--bg-page); }
+        header { padding: 20px; border-bottom: 1px solid #eee; background: #fff; position: sticky; top: 0; z-index: 100; }
+        
+        .quran-container { padding: 50px 10%; font-size: 42px; line-height: 2.8; text-align: center; }
+        
+        .word {
+            color: transparent; /* Mkhfya f-l-lowel */
+            transition: all 0.4s ease;
+            padding: 0 8px;
+            display: inline-block;
+            border-radius: 8px;
+        }
+
+        /* Kelma Shiha */
+        .word.revealed { color: #000; }
+        .word.revealed .t-red { color: var(--tajweed-red); }
+        .word.revealed .t-blue { color: var(--tajweed-blue); }
+        .word.revealed .t-orange { color: var(--tajweed-orange); }
+
+        /* Kelma Ghalta */
+        .word.error-flash {
+            color: var(--error-color) !important;
+            background: #ffebee;
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .ayah-end { display: inline-flex; width: 45px; height: 45px; border: 2px solid #333; border-radius: 50%; font-size: 18px; align-items: center; justify-content: center; margin: 0 10px; font-family: Arial; color: #333; }
+        
+        .mic-fab { width: 70px; height: 70px; background: #4ade80; border-radius: 50%; border: none; color: white; font-size: 28px; cursor: pointer; position: fixed; bottom: 30px; left: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .mic-fab.active { background: #ef4444; }
+
+        #live-box { position: fixed; top: 10px; left: 10px; background: #333; color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div id="live-box">Sawt: <span id="transcript-text">...</span></div>
+
+    <header>
+        <h2>التسميع المنهجي (كلمة بكلمة)</h2>
+        <p style="color: #666; font-size: 16px;">اقرأ الآيات بالترتيب. إذا أخطأت، سيظهر الخطأ بالأحمر.</p>
+    </header>
+
+    <div class="quran-container" id="quran-content">
+        <span class="word" data-match="بسم">بِسْمِ</span> 
+        <span class="word" data-match="الله">اللَّهِ</span> 
+        <span class="word" data-match="الرحمن"><span class="t-blue">ا</span>لرَّ<span class="t-orange">حْ</span>مَ<span class="t-red">نِ</span></span> 
+        <span class="word" data-match="الرحيم">الرَّحِيمِ</span> 
+        <br>
+        <span class="word" data-match="الم"> <span class="t-red">ال</span><span class="t-blue">م</span> </span> 
+        <span class="ayah-end">١</span>
+        <span class="word" data-match="ذلك">ذَٰلِكَ</span> 
+        <span class="word" data-match="الكتاب"><span class="t-orange">الْ</span>كِتَابُ</span> 
+        <span class="word" data-match="لا">لَا</span> 
+        <span class="word" data-match="ريب">رَيْبَ</span> 
+        <span class="word" data-match="فيه">فِيهِ</span>
+        <span class="word" data-match="هدى">هُدًى</span>
+        <span class="word" data-match="للمتقين">لِّلْمُتَّقِينَ</span>
+        <span class="ayah-end">٢</span>
+    </div>
+
+    <button class="mic-fab" id="micBtn"><i class="fa-solid fa-microphone"></i></button>
+
+    <script>
+        const words = document.querySelectorAll('.word');
+        const transcriptText = document.getElementById('transcript-text');
+        const micBtn = document.getElementById('micBtn');
+        let currentIndex = 0; // Tracking dial tartib
+
+        // 1. Function dial Sawt l-Error (Buzzer)
+        function playErrorSound() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(150, audioCtx.currentTime); // Sawt hbat dial bug
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.2);
+        }
+
+        // 2. Speech Recognition Setup
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert("Chrome Desktop is required!");
+        } else {
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'ar-SA';
+            recognition.continuous = true;
+            recognition.interimResults = true;
+
+            micBtn.onclick = () => {
+                if (micBtn.classList.contains('active')) {
+                    recognition.stop();
+                } else {
+                    recognition.start();
+                    currentIndex = 0; // Reset f-l-bdaya
+                    words.forEach(w => w.className = 'word');
+                }
+            };
+
+            recognition.onstart = () => micBtn.classList.add('active');
+            recognition.onend = () => micBtn.classList.remove('active');
+
+            recognition.onresult = (event) => {
+                let lastResultIndex = event.results.length - 1;
+                let transcript = event.results[lastResultIndex][0].transcript.trim();
+                transcriptText.innerText = transcript;
+
+                if (currentIndex >= words.length) return;
+
+                let currentWord = words[currentIndex];
+                let expected = currentWord.getAttribute('data-match');
+
+                // Check ila l-kalima li t-ntaqat kayna f-l-hadra
+                if (transcript.includes(expected)) {
+                    currentWord.classList.remove('error-flash');
+                    currentWord.classList.add('revealed');
+                    currentIndex++; // Zid l-kelma l-moria
+                } else {
+                    // Check ila n-taq kelma khora ghalta (machi l-mousstahdafa)
+                    // Hna derna logic sghira: ila transcript fih hadra mais machi l-expected
+                    let wordsInTranscript = transcript.split(' ');
+                    let lastSpoken = wordsInTranscript[wordsInTranscript.length - 1];
+                    
+                    if (lastSpoken && lastSpoken !== expected && !transcript.includes(expected)) {
+                        currentWord.classList.add('error-flash');
+                        playErrorSound();
+                        
+                        // Error flash k-y-mchi b3d 1s
+                        setTimeout(() => {
+                            currentWord.classList.remove('error-flash');
+                        }, 1000);
+                    }
+                }
+            };
+        }
+    </script>
+</body>
+</html>

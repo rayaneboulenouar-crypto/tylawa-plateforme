@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Reciters - Quran App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-mint: #e8f4f1;
+            --text-dark: #1a1a1a;
+            --accent-green: #2d7a6a;
+            --card-bg: #d9ede8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: var(--text-dark);
+        }
+
+        .main-container {
+            min-height: 200vh; /* Garde la hauteur demandée */
+            padding: 40px 8% 80px 8%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-section {
+            width: 100%;
+            max-width: 1100px;
+            margin-bottom: 50px;
+        }
+
+        /* Lien de retour à gauche */
+        .back-nav {
+            margin-bottom: 30px;
+        }
+
+        .back-link {
+            color: var(--accent-green);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+        }
+
+        .search-bar input {
+            width: 300px;
+            padding: 12px 20px;
+            border: 1px solid #eee;
+            border-radius: 25px;
+            background: #fdfdfd;
+            font-size: 0.9rem;
+            outline: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        /* Grille complète */
+        .reciters-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px 30px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .reciter-card {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .image-container {
+            border-radius: 20px;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .reciter-card:hover .image-container {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            mix-blend-mode: multiply;
+            opacity: 0.95;
+        }
+
+        .reciter-name {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #222;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .reciters-grid { grid-template-columns: repeat(2, 1fr); }
+            h1 { font-size: 2.5rem; }
+        }
+        @media (max-width: 600px) {
+            .reciters-grid { grid-template-columns: 1fr; }
+        }
+        .back-home {
+            text-decoration: none;
+            color: #008967;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .blog-section {
+            height: 151vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 8%;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 500;
+            line-height: 1.1;
+            margin-bottom: 60px;
+            color: var(--text-dark);
+            letter-spacing: -1.5px;
+        }
+
+        /* Grille des articles */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .blog-card {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .image-box {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            background-color: #f5f5f5;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .blog-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .blog-content h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .blog-content p {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: gap 0.3s;
+        }
+
+        .read-more:hover {
+            gap: 12px;
+        }
+
+        /* Bouton central */
+        .footer-action {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .main-btn {
+            background-color: var(--btn-green);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.8rem;
+            transition: opacity 0.3s;
+        }
+
+        .main-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            h1 { font-size: 3rem; }
+            .blog-grid { grid-template-columns: repeat(2, 1fr); }
+            .blog-section { height: auto; padding: 80px 8%; }
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid { grid-template-columns: 1fr; }
+        }
+        .site-footer {
+    padding: 60px 5%;
+    background-color: #fff;
+    border-top: 1px solid #e0e0e0;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr; 
+    gap: 40px;
+    align-items: center;
+}
+
+/* Section Description */
+.footer-description p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #4a4a4a;
+    max-width: 300px;
+}
+
+/* Section Logo et Centre */
+.footer-center {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-logo img {
+    height: 30px;
+}
+
+.footer-logo span {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0d3b3f;
+}
+
+.copyright {
+    font-size: 12px;
+    color: #888;
+}
+
+.legal-links a {
+    font-size: 13px;
+    color: #0d3b3f;
+    text-decoration: underline;
+    margin: 0 10px;
+}
+
+/* Section Navigation Droite */
+.footer-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-row {
+    display: flex;
+    align-items: center;
+    margin: -10px ;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.nav-row:last-child {
+    border-bottom: none;
+}
+
+.nav-label {
+    width: 120px;
+    font-weight: 600;
+    font-size: 11px;
+    color: #1a1a1a;
+}
+
+/* Gestion des liens sans UL/LI */
+.nav-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* Pour éviter que ça dépasse sur petit écran */
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #666;
+    font-size: 11px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #0d3b3f;
+}
+
+/* Responsive pour mobiles */
+@media (max-width: 992px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .footer-description p {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    
+    .nav-row {
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px 0;
+    }
+    
+    .nav-label {
+        width: 100%;
+    }
+    
+    .nav-links {
+        justify-content: center;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <section class="main-container">
+        <div class="header-section">
+            <div class="back-nav">
+                <a href="applicationweb.html#section-2" class="back-home"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            </div>
+            
+            <h1>All Reciters</h1>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search a specific reciter...">
+            </div>
+        </div>
+
+        <div class="reciters-grid">
+    <a href="player.html?id=afs&name=Mishary%20Bin%20Rashid%20Alafasy&img=unnamed.jpg&srv=8" class="reciter-card">
+        <div class="image-container"><img src="unnamed.jpg" alt="Mishary"></div>
+        <p class="reciter-name">Mishary Bin Rashid Alafasy</p>
+    </a>
+
+    <a href="player.html?id=sds&name=Abdul%20Rahman%20Al-Sudais&img=unnamed (1).jpg&srv=11" class="reciter-card">
+        <div class="image-container"><img src="unnamed (1).jpg" alt="Sudais"></div>
+        <p class="reciter-name">Abdul Rahman Al-Sudais</p>
+    </a>
+
+    <a href="player.html?id=basit&name=Abdul-Basit%20Abdul%20Samad&img=unnamed (2).jpg&srv=7" class="reciter-card">
+        <div class="image-container"><img src="unnamed (2).jpg" alt="Samad"></div>
+        <p class="reciter-name">Abdul-Basit Abdul Samad</p>
+    </a>
+
+    <a href="player.html?id=yasser&name=Yasser%20Al%20Dosari&img=unnamed (4).jpg&srv=11" class="reciter-card">
+        <div class="image-container"><img src="unnamed (4).jpg" alt="Dosari"></div>
+        <p class="reciter-name">Yasser Al Dosari</p>
+    </a>
+
+    <a href="player.html?id=maher&name=Maher%20Al-Muaiqly&img=unnamed (6).jpg&srv=12" class="reciter-card">
+        <div class="image-container"><img src="unnamed (6).jpg" alt="Maher"></div>
+        <p class="reciter-name">Maher Al-Muaiqly</p>
+    </a>
+</div>
+    </section>
+    <section class="blog-section">
+        <div class="container">
+            <h1>Learn Quran and Islam<br>basics everyday.</h1>
+
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <div class="image-box">
+                        <img src="photo-1511091734515-e50d46c37240.avif" alt="Mosque">
+                    </div>
+                    <div class="blog-content">
+                        <h3>Where was islam created at first?</h3>
+                        <p>In this world, Islam is the major world religion promulgated by the prophet Muhammad(s)...</p>
+                        <a href="#" class="read-more">Read more →</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="image-box">
+                        <img src="817uTbGop8L.png" alt="Kaaba">
+                    </div>
+                    <div class="blog-content">
+                        <h3>How many years old is Kaaba?</h3>
+                        <p>The traditional belief is that Abraham built it around 5000 years ago. Ibrahim was ordered by Allah to build the...</p>
+                        <a href="#" class="read-more">Read more →</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="image-box">
+                        <img src="unnamed (10).jpg" alt="Quran">
+                    </div>
+                    <div class="blog-content">
+                        <h3>Benefits Of Reciting The Holy Quran?</h3>
+                        <p>We need guidance in every aspect of our life and the best guidance we can find is in the Quran...</p>
+                        <a href="#" class="read-more">Read more →</a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="footer-action">
+                <a href="#" class="main-btn">Read all news and blogs</a>
+            </div>
+        </div>
+    </section>
+    <footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-description">
+            <p>Explore the Quran's wisdom and immerse in Islamic music, connecting with spirituality through words and melodies on our platform</p>
+        </div>
+
+        <div class="footer-center">
+            <div class="footer-logo">
+                <i class="fas fa-book-open"></i> Tylawa
+            </div>
+            <p class="copyright">©2023 Qolb foundation. All rights reserved.</p>
+            <div class="legal-links">
+                <a href="#">Terms of Use</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <div class="nav-row">
+                <span class="nav-label">Menu:</span>
+                <nav class="nav-links">
+                    <a href="#">Reciters</a>
+                    <a href="#">Music</a>
+                    <a href="#">About Us</a>
+                    <a href="#">Blog</a>
+                </nav>
+            </div>
+            <div class="nav-row">
+                <span class="nav-label">Company:</span>
+                <nav class="nav-links">
+                    <a href="#">FAQs</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Help</a>
+                    <a href="#">Feedback</a>
+                </nav>
+            </div>
+            <div class="nav-row">
+                <span class="nav-label">Social Media:</span>
+                <nav class="nav-links">
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Threads</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
