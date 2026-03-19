@@ -352,3 +352,42 @@ searchInput.addEventListener('input', (e) => {
         }
     });
 });
+
+// --- Logic dyal Dark Mode ---
+
+const themeToggle = document.getElementById('theme-toggle');
+
+// 1. Fonction bach n-tabbqo l-theme
+function applyTheme(theme) {
+    const icon = themeToggle.querySelector('i');
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        // Beddel l-icon l-chems
+        if (icon) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        // Beddel l-icon l-qmer
+        if (icon) {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+    }
+}
+
+// 2. Chof ach mn theme msajel f l-browser mlli it-chargi l-site
+const savedTheme = localStorage.getItem('theme') || 'light';
+applyTheme(savedTheme);
+
+// 3. Event listener mlli n-clickiw 3la l-bouton
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+    });
+}
